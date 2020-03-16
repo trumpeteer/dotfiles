@@ -18,6 +18,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # git autocrlf
 git config --global core.autocrlf input
 
+# Download submodules
+git submodule update --init
+
 # Update nvm
 echo ------------
 echo Updating nvm
@@ -32,7 +35,7 @@ echo ------------
 echo ---------------------------
 echo Installing node LTS and npm
 echo ---------------------------
-nvm install 'lts/*' --latest-npm
+nvm install lts/* --latest-npm
 
 # Install docker and docker-compose
 echo ------------------------------------
@@ -43,9 +46,9 @@ sudo apt-key fingerprint 0EBFCD88
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt update
 sudo apt install docker-ce
-sudo systemctl docker start
-sudo systemctl docker enable
-COMPOSE_VERSION=curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")'
+sudo systemctl start docker
+sudo systemctl enable docker
+COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 sudo curl -L "https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
