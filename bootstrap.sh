@@ -31,6 +31,9 @@ echo ------------
   git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
 ) && \. "$DIR/nvm/nvm.sh"
 
+# Annoying fix for nvm not supporting symlinks
+sed -i -e "s^export NVM_DIR=.*^export NVM_DIR=$DIR/nvm^"
+
 # Install node LTS and npm
 echo ---------------------------
 echo Installing node LTS and npm
@@ -72,8 +75,9 @@ env ZSH=$DIR/oh-my-zsh sh $DIR/oh-my-zsh/tools/upgrade.sh
 
 # Link dotfiles
 ln -sfn $DIR $HOME/.dotfiles
+ln -sfn $DIR/zprofile $HOME/.zprofile
 ln -sfn $DIR/zshrc $HOME/.zshrc
 ln -sfn $DIR/nvm $HOME/.nvm
 ln -sfn $DIR/oh-my-zsh $HOME/.oh-my-zsh
-ln -sfn $DIR/dracula/dracula.zsh-theme $DIR/oh-my-zsh/themes/dracula.zsh-theme
+ln -sfn $DIR/zplug $HOME/.zplug
 ln -sfn $DIR/dircolors/dircolors.ansi-dark $HOME/.dircolors
