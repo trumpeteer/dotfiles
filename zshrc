@@ -130,11 +130,21 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 GOPATH=$HOME/go
-function _update_ps1() {
-    PS1="$($GOPATH/bin/powerline-go -error $?)"
+function powerline_precmd() {
+    PS1="$($GOPATH/bin/powerline-go -error $? -shell zsh)"
 }
-if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+
+function install_powerline_precmd() {
+  for s in "${precmd_functions[@]}"; do
+    if [ "$s" = "powerline_precmd" ]; then
+      return
+    fi
+  done
+  precmd_functions+=(powerline_precmd)
+}
+
+if [ "$TERM" != "linux" ]; then
+    install_powerline_precmd
 fi
 
 export NVM_DIR="$HOME/github/dotfiles/nvm"
