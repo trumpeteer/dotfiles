@@ -55,6 +55,18 @@ COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/l
 sudo curl -L "https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
+# Install Go
+echo -------------
+echo Installing Go
+echo -------------
+sudo apt-get install golang-go
+
+# Install Powerline-Go
+echo -----------------------
+echo Installing Powerline-Go
+echo -----------------------
+go get -u github.com/justjanne/powerline-go
+
 # Install Yarn
 echo ---------------
 echo Installing Yarn
